@@ -1,0 +1,216 @@
+openapi: 3.0.0
+info:
+  title: learn express and swagger
+  description: learning writing api docs
+  version: 1.1.0
+  contact:
+    email: vatsalparmar33@gmail.com
+    url: "https:google.com"
+
+servers:
+  - url: "http://localhost:3000/api/v1"
+    description: for localhost - regular
+  - url: "https://localhost:3000/api/v1"
+    description: for localhost -secure
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+paths:
+  /hi:
+    get:
+      tags:
+        - String
+      summary: returns a greet message
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "hello world"
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+  /object:
+    get:
+      tags:
+        - Object
+      summary: returns a object
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: number
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+  /courses:
+    get:
+      tags:
+        - Array
+      summary: returns a array of courses
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+                    price:
+                      type: number
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+  /mycourse/{courseId}:
+    get:
+      tags:
+        - Object
+      summary: returns course based on id
+      parameters:
+        - name: courseId
+          in: path
+          required: true
+          default: "1"
+          schema:
+            type: string
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                  price:
+                    type: number
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+  /addCourse:
+    post:
+      tags:
+        - Object
+      summary: adds a new course
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                name:
+                  type: string
+                price:
+                  type: number
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: boolean
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+  /coursequery:
+    get:
+      tags:
+        - Object
+      summary: trying to learn about query
+      parameters:
+        - name: location
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [ahmedabad, swiss]
+        - name: device
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [web, android, ios]
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location:
+                    type: string
+                  device:
+                    type: string
+        400:
+          description: Bad request
+        500:
+          description: internal server error
+  /fileupload:
+    post:
+      tags:
+        - File
+      summary: uploading image
+      parameters:
+        - in: header
+          name: auth
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: all good
+          content:
+            application/json:
+              schema:
+                type: boolean
+        400:
+          description: Bad request
+        500:
+          description: internal server error
